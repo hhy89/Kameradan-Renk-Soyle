@@ -6,8 +6,8 @@ Kameradan renkleri gerçek zamanlı algılayarak size rengin adını söyler.
 
 Uygulama Resimleri
 =======
-![image](https://github.com/hhy89/Kameradan-Renk-Soyle/tree/master/resimler/telefon1.png)
-![image](https://github.com/hhy89/Kameradan-Renk-Soyle/tree/master/resimler/telefon2.png)
+![image](https://raw.githubusercontent.com/hhy89/Kameradan-Renk-Soyle/master/resimler/telefon1.png)
+![image](https://raw.githubusercontent.com/hhy89/Kameradan-Renk-Soyle/master/resimler/telefon2.png)
 
 Kullanım ve Özellikleri
 =======
@@ -27,11 +27,11 @@ Uygulamanın daha iyi yerlere gelebilmesi için uygulamaya katkıda bulunabilirs
 
 Yapımcılar ve Katkıda Bulunanlar
 ========
-Hasan Hilmi Yeniavcı
-Murat Abakam
-Meerim Bolotkanova
-K. Rıdvan Dirik
-Kadir Gümüş
+* Hasan Hilmi Yeniavcı
+* Murat Abakam
+* Meerim Bolotkanova
+* K. Rıdvan Dirik
+* Kadir Gümüş
 
 Lisans
 =====================
