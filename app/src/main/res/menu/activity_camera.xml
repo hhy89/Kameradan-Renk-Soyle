@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_flash"
+        android:title="@string/menu_flash_on"
+        android:showAsAction="ifRoom|withText"
+        android:icon="@mipmap/hhy_flash_on" />
+    <item
+        android:id="@+id/menu_info"
+        android:title="@string/menu_info"
+        android:showAsAction="never"/>
+
+</menu>
