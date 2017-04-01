@@ -10,7 +10,7 @@ import android.graphics.drawable.shapes.RectShape;
 import android.util.TypedValue;
 import android.view.View;
 
-// çizme sınıfı
+// orta alanı çizme sınıfı
 public class OutlineDrawableView extends View {
     // şekilleri tanımla
     private ShapeDrawable outline1;
@@ -21,14 +21,14 @@ public class OutlineDrawableView extends View {
     private int radius;
     private int width_dp;
 
-    // çizmek için ana sınıf
+    // ana sınıf
     public OutlineDrawableView(Context context, int radius) {
         super(context);
         // radius ata
         this.radius = radius;
         width_dp = radius * 6;
 
-        // dp ye çevir
+        // kalınlığı belirle
         stroke = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, stroke, getResources().getDisplayMetrics());
 
         // 1. alanı çiz
@@ -47,7 +47,7 @@ public class OutlineDrawableView extends View {
         paint2.setAntiAlias(true);
         paint2.setStyle(Paint.Style.STROKE);
 
-        // yolu ve 3. alanı çiz
+        // çarpıyı çiz
         Path path = new Path();
         path.moveTo(0, 0);
         path.lineTo(width_dp, width_dp);
@@ -61,7 +61,7 @@ public class OutlineDrawableView extends View {
         paint3.setStyle(Paint.Style.STROKE);
     }
 
-    // canvas çizmek için
+    // çizmek için
     protected void onDraw(Canvas canvas) {
         outline1.draw(canvas);
         outline2.draw(canvas);

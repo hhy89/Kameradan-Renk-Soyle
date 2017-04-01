@@ -28,28 +28,25 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     private TextView colorView2;
     // menü için
     private Menu menu;
-    // renklerin dosyadan alındığı sınıf için
+    // renklerin alındığı sınıf
     private ColorData cdata;
     // kamera kısmı ve radius tanımlaması
-    private int radius = 5;
     private OutlineDrawableView centerView;
+    private int radius = 5;
     private int cX;
     private int cY;
-    // durdurulduğundaki piksel
+    // durdurulduğundaki pikseller
     private int[] pausedPixels = null;
     // durdurulduğundaki yükseklik ve genişlik
     private int pausedWidth;
     private int pausedHeight;
-
     // renk aralığı için sensivity tanımla
     private int sensitivity = 5;
-
     // sesleri çalmak için mediaplayer oluştur
     MediaPlayer mediaPlayer = new MediaPlayer();
-
     // şuanki renk ve en yakın renk kodları
     String currentColor;
-    String currentNamedColor;
+    String closestColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +54,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         setContentView(R.layout.activity_camera);
 
         // renk sınıfını al
-        cdata = new ColorData(this);
+        cdata = new ColorData();
 
         // renklerin yazıldığı yerler
         colorView1 = (TextView) findViewById(R.id.camera_result1_textview);
@@ -80,7 +77,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
                 // tek tap da rengi söyle
                 public boolean onSingleTapConfirmed(MotionEvent event) {
                     // rengi söyle
-                    playSound(cdata.getColorName(currentNamedColor));
+                    playSound(cdata.getColorName(closestColor));
                     return true;
                 }
                 @Override
@@ -97,7 +94,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
             }
         });
 
-        // dp ye çevirme işlemi ve (x,y) tanımlaması
+        // radius ayarlama ve (x,y) tanımlaması
         radius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, getResources().getDisplayMetrics());
         cX = 2 * radius;
         cY = 2 * radius;
@@ -204,9 +201,11 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         int red = 0;
         int green = 0;
         int blue = 0;
+        // orta noktayı belirler
         int scaleX = pausedHeight / 2;
         int scaleY = pausedWidth / 2;
 
+        // sensitivity değerine göre etraftaki renkleri de al
         for (int i = scaleX - sensitivity; i < scaleX + sensitivity; i++) {
             for (int j = scaleY - sensitivity; j < scaleY + sensitivity; j++) {
                 int index = (i * pausedWidth) + j;
@@ -216,24 +215,25 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
                 blue += Color.blue(pixel);
             }
         }
+        // tüm alınan renkleri teke düşür ve rengi belirle
         int color = Color.rgb((int) (red / (1.0 * (2 * sensitivity) * (2 * sensitivity))), (int) (green / (1.0 * (2 * sensitivity) * (2 * sensitivity))), (int) (blue / (1.0 * (2 * sensitivity) * (2 * sensitivity))));
         int[] col = {Color.red(color), Color.green(color), Color.blue(color)};
 
         // rengi bul
         currentColor = cdata.ColorToString(col);
-        currentNamedColor = cdata.closestColor(col);
+        closestColor = cdata.closestColor(col);
         boolean isDarkColor = cdata.isDarkColor(col);
         // rengi yazdır
         colorView1.setBackgroundColor(color);
         colorView1.setText(getText(R.string.you_chose) + " " + currentColor);
         // 2. alana rengin adını yazdır
-        colorView2.setBackgroundColor(Color.parseColor(currentNamedColor));
+        colorView2.setBackgroundColor(Color.parseColor(closestColor));
         if (colorView2.getTag().equals("layout") || colorView2.getTag().equals("layout-small"))
-            colorView2.setText(("" + cdata.getColorName(currentNamedColor) + "    " + "(" + currentNamedColor + ")"));
+            colorView2.setText(("" + cdata.getColorName(closestColor) + "    " + "(" + closestColor + ")"));
         else
-            colorView2.setText("" + cdata.getColorName(currentNamedColor) + '\n' + "(" + currentNamedColor + ")");
+            colorView2.setText("" + cdata.getColorName(closestColor) + '\n' + "(" + closestColor + ")");
 
-        // yazı rengini arkaplan rengine göre beyaz ya da siyah yap
+        // yazı rengini renge göre beyaz ya da siyah yap
         if (isDarkColor) {
             colorView1.setTextColor(Color.WHITE);
             colorView2.setTextColor(Color.WHITE);
@@ -254,11 +254,8 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
             // rengi gündelle
             updateColors();
 
-            // durdurulmadıysa
-            if (!isPaused) {
-                // bufferı temizle
-                mPreview.resetBuffer();
-            }
+            // durdurulmadıysa bufferı temizle
+            if (!isPaused) mPreview.resetBuffer();
         }
     }
 
@@ -268,11 +265,8 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         mPreview.pause(isPaused);
         // rengi güncelle
         updateColors();
-        // durdurulmadıysa
-        if (!isPaused) {
-            // bufferı temizle
-            mPreview.resetBuffer();
-        }
+        // durdurulmadıysa bufferı temizle
+        if (!isPaused) mPreview.resetBuffer();
     }
 
 }
