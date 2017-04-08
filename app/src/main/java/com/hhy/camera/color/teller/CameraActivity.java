@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,8 +25,9 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     // durduruldu mu?
     private boolean isPaused = false;
     // renkleri yazan yerler
-    private TextView colorView1;
-    private TextView colorView2;
+    private TextView colorView;
+    // flashı açıp kapatmak için buton
+    private Button button;
     // menü için
     private Menu menu;
     // renklerin alındığı sınıf
@@ -45,7 +47,6 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     // sesleri çalmak için mediaplayer oluştur
     MediaPlayer mediaPlayer = new MediaPlayer();
     // şuanki renk ve en yakın renk kodları
-    String currentColor;
     String closestColor;
 
     @Override
@@ -57,8 +58,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         cdata = new ColorData();
 
         // renklerin yazıldığı yerler
-        colorView1 = (TextView) findViewById(R.id.camera_result1_textview);
-        colorView2 = (TextView) findViewById(R.id.camera_result2_textview);
+        colorView = (TextView) findViewById(R.id.camera_result_textview);
         
         // kamera preview için
         mPreview = new Preview(this);
@@ -93,6 +93,17 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
                 return true;
             }
         });
+
+        // flash açıp kapama butonu
+        button = (Button) findViewById(R.id.flash_button);
+        if (mPreview.supportsFlash()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
+                    flash();
+                }
+            });
+        } else button.setVisibility(View.GONE);
 
         // radius ayarlama ve (x,y) tanımlaması
         radius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, getResources().getDisplayMetrics());
@@ -149,11 +160,15 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
             if (mPreview.lightOn) {
                 //menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.hhy_flash_off));
                 menu.getItem(0).setIcon(R.mipmap.hhy_flash_off);
-                menu.getItem(0).setTitle(R.string.menu_flash_off);
+                menu.getItem(0).setTitle(R.string.flash_off);
+                button.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.hhy_flash_off, 0, 0, 0);
+                button.setText(R.string.flash_off);
             } else {
                 //menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.hhy_flash_on));
                 menu.getItem(0).setIcon(R.mipmap.hhy_flash_on);
-                menu.getItem(0).setTitle(R.string.menu_flash_on);
+                menu.getItem(0).setTitle(R.string.flash_on);
+                button.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.hhy_flash_on, 0, 0, 0);
+                button.setText(R.string.flash_on);
             }
         }
     }
@@ -220,27 +235,15 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         int[] col = {Color.red(color), Color.green(color), Color.blue(color)};
 
         // rengi bul
-        currentColor = cdata.ColorToString(col);
         closestColor = cdata.closestColor(col);
         boolean isDarkColor = cdata.isDarkColor(col);
         // rengi yazdır
-        colorView1.setBackgroundColor(color);
-        colorView1.setText(getText(R.string.you_chose) + " " + currentColor);
-        // 2. alana rengin adını yazdır
-        colorView2.setBackgroundColor(Color.parseColor(closestColor));
-        if (colorView2.getTag().equals("layout") || colorView2.getTag().equals("layout-small"))
-            colorView2.setText(("" + cdata.getColorName(closestColor) + "    " + "(" + closestColor + ")"));
-        else
-            colorView2.setText("" + cdata.getColorName(closestColor) + '\n' + "(" + closestColor + ")");
+        colorView.setBackgroundColor(Color.parseColor(closestColor));
+        colorView.setText("" + cdata.getColorName(closestColor));
 
         // yazı rengini renge göre beyaz ya da siyah yap
-        if (isDarkColor) {
-            colorView1.setTextColor(Color.WHITE);
-            colorView2.setTextColor(Color.WHITE);
-        } else {
-            colorView1.setTextColor(Color.BLACK);
-            colorView2.setTextColor(Color.BLACK);
-        }
+        if (isDarkColor) colorView.setTextColor(Color.WHITE);
+        else colorView.setTextColor(Color.BLACK);
     }
     
     @Override

@@ -24,11 +24,11 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/camera_result2_textview"
+                android:id="@+id/camera_result_textview"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:tag="layout"
-                android:textSize="20sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -37,18 +37,17 @@
                 android:textAlignment="center"
                 android:gravity="center" />
 
-            <TextView
-                android:id="@+id/camera_result1_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:gravity="center"                
-                android:textSize="16sp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp" />
-            
-        </LinearLayout>
+        <Button
+            android:id="@+id/flash_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="10"
+            android:drawableLeft="@mipmap/hhy_flash_on"
+            android:text="@string/flash_on"
+            android:textSize="24sp"
+            tools:ignore="RtlHardcoded" />
+
+    </LinearLayout>
 
 </RelativeLayout>

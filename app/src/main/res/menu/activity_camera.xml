@@ -2,7 +2,7 @@
 
     <item
         android:id="@+id/menu_flash"
-        android:title="@string/menu_flash_on"
+        android:title="@string/flash_on"
         android:showAsAction="ifRoom|withText"
         android:icon="@mipmap/hhy_flash_on" />
     <item

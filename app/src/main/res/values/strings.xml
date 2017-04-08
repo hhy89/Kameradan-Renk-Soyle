@@ -20,10 +20,9 @@
         \n\nGeribildirim vermek için <a href="market://details?id=com.hhy.camera.color.teller">play store</a>dan yorum yaparak ya da <a href="mailto:hhy89@bote.pau.edu.tr">hhy89@bote.pau.edu.tr</a> adresinden bana mail atabilirsiniz.
 		\n\nUygulamanın tüm hakları yapımcıya aittir.
 	</string>
-    <string name="menu_flash_on">Flash Aç</string>
-    <string name="menu_flash_off">Flash Kapa</string>
-    <string name="you_chose">Renk Seçimi</string>
-    <string name="camera_permission">Kamera İzni</string>
+    <string name="flash_on">Flash Aç</string>
+    <string name="flash_off">Flash Kapa</string>
+	<string name="camera_permission">Kamera İzni</string>
     <string name="camera_permission_text">Uygulamanın çalışması için kamera iznini vermelisiniz.</string>
     <string name="go_settings">Ayarlara Git</string>
     <string name="exit">Uygulamadan Çık</string>
