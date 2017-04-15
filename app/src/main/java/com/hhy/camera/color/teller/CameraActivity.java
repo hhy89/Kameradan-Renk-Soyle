@@ -96,14 +96,12 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
 
         // flash açıp kapama butonu
         button = (Button) findViewById(R.id.flash_button);
-        if (mPreview.supportsFlash()) {
-            button.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
                     flash();
                 }
             });
-        } else button.setVisibility(View.GONE);
 
         // radius ayarlama ve (x,y) tanımlaması
         radius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, radius, getResources().getDisplayMetrics());
@@ -207,6 +205,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         // flash destegi yoksa flash butonunu kaldır
         if (!mPreview.supportsFlash()) {
             menu.removeItem(R.id.menu_flash);
+            button.setVisibility(View.GONE);
         }
         return true;
     }
