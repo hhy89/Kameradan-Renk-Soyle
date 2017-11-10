@@ -6,16 +6,16 @@
     tools:context=".CameraActivity" >
 
     <FrameLayout
-	    android:id="@+id/camera_preview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" />
+        android:id="@+id/camera_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
     
     <LinearLayout 
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:gravity="center"
         android:id="@+id/camera_activity_center"
-		android:orientation="horizontal" />
+        android:orientation="horizontal" />
     
     <LinearLayout
             android:id="@+id/results_holder_layout"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
             
-        	<TextView
+            <TextView
                 android:id="@+id/camera_result_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

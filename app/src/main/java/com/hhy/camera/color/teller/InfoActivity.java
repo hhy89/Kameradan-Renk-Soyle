@@ -12,7 +12,7 @@ public class InfoActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        TextView t = (TextView) findViewById(R.id.info_text);
+        TextView t = findViewById(R.id.info_text);
         t.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

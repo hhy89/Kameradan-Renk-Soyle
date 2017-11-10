@@ -42,8 +42,6 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     // durdurulduğundaki yükseklik ve genişlik
     private int pausedWidth;
     private int pausedHeight;
-    // renk aralığı için sensivity tanımla
-    private int sensitivity = 5;
     // sesleri çalmak için mediaplayer oluştur
     MediaPlayer mediaPlayer = new MediaPlayer();
     // şuanki renk ve en yakın renk kodları
@@ -58,15 +56,15 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         cdata = new ColorData();
 
         // renklerin yazıldığı yerler
-        colorView = (TextView) findViewById(R.id.camera_result_textview);
+        colorView = findViewById(R.id.camera_result_textview);
         
         // kamera preview için
         mPreview = new Preview(this);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        FrameLayout preview = findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
         // orta kamera alanı
-        LinearLayout centerLayout = (LinearLayout) findViewById(R.id.camera_activity_center);
+        LinearLayout centerLayout = findViewById(R.id.camera_activity_center);
         centerView = new OutlineDrawableView(this, radius);
         centerLayout.addView(centerView);
 
@@ -86,6 +84,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
                     flash();
                     return true;
                 }
+
             });
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -95,7 +94,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         });
 
         // flash açıp kapama butonu
-        button = (Button) findViewById(R.id.flash_button);
+        button = findViewById(R.id.flash_button);
         button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
@@ -111,7 +110,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         // telefonu uyanık tutmak için = ekran kararmasın diye
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-    
+
     @Override
     // ortadaki rengi alan kareyi yapmak için
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -215,11 +214,23 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         int red = 0;
         int green = 0;
         int blue = 0;
+
         // orta noktayı belirler
         int scaleX = pausedHeight / 2;
         int scaleY = pausedWidth / 2;
 
+        /*
+        // sadece orta nokta değerini almak istersek
+        int index = (scaleX * pausedWidth) + scaleY;
+        int pixel = pausedPixels[index];
+        red = Color.red(pixel);
+        green = Color.green(pixel);
+        blue = Color.blue(pixel);
+        int[] col = {red, green, blue};
+        */
+
         // sensitivity değerine göre etraftaki renkleri de al
+        int sensitivity = 3;
         for (int i = scaleX - sensitivity; i < scaleX + sensitivity; i++) {
             for (int j = scaleY - sensitivity; j < scaleY + sensitivity; j++) {
                 int index = (i * pausedWidth) + j;
@@ -238,7 +249,7 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         boolean isDarkColor = cdata.isDarkColor(col);
         // rengi yazdır
         colorView.setBackgroundColor(Color.parseColor(closestColor));
-        colorView.setText("" + cdata.getColorName(closestColor));
+        colorView.setText(cdata.getColorName(closestColor));
 
         // yazı rengini renge göre beyaz ya da siyah yap
         if (isDarkColor) colorView.setTextColor(Color.WHITE);

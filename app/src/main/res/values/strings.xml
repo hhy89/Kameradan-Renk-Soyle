@@ -8,21 +8,21 @@
     <string name="title_activity_info">Bilgiler</string>
     <string name="menu_camera">Kamera</string>
     <string name="info_text">Renk Söyle uygulaması Renk körü ve Görme engelli vatandaşlarımız için yapılmış bir uygulamadır. Onlara sizin gördüğünüz ama onların göremediği renklerin ne olduğunu söylemek için yapılmıştır.
-		\n\n<b>Uygulama Bilgileri</b>
-        \nVersiyon 1.0, Ocak 2017
-	    \n\n<b>Yapımcı Bilgileri</b>
+        \n\n<b>Uygulama Bilgileri</b>
+        \nVersiyon 3.1.2, Kasım 2017
+        \n\n<b>Yapımcı Bilgileri</b>
         \n\nHasan Hilmi Yeniavcı.
-		\n\n<b>Yardımcılar</b>
+        \n\n<b>Yardımcılar</b>
         \n\nMurat Abakam
-		\nMeerim Bolotkanova
-		\nK. Rıdvan Dirik
-		\nKadir Gümüş
-        \n\nGeribildirim vermek için <a href="market://details?id=com.hhy.camera.color.teller">play store</a>dan yorum yaparak ya da <a href="mailto:hhy89@bote.pau.edu.tr">hhy89@bote.pau.edu.tr</a> adresinden bana mail atabilirsiniz.
-		\n\nUygulamanın tüm hakları yapımcıya aittir.
-	</string>
+        \nMeerim Bolotkanova
+        \nK. Rıdvan Dirik
+        \nKadir Gümüş
+        \n\nGeribildirim vermek için <a href="market://details?id=com.hhy.camera.color.teller">play store</a>dan yorum yapabilir ya da <a href="mailto:hhy89@bote.pau.edu.tr">hhy89@bote.pau.edu.tr</a> adresinden bana mail atabilirsiniz.
+        \n\nUygulamanın tüm hakları yapımcıya aittir.
+    </string>
     <string name="flash_on">Flash Aç</string>
     <string name="flash_off">Flash Kapa</string>
-	<string name="camera_permission">Kamera İzni</string>
+    <string name="camera_permission">Kamera İzni</string>
     <string name="camera_permission_text">Uygulamanın çalışması için kamera iznini vermelisiniz.</string>
     <string name="go_settings">Ayarlara Git</string>
     <string name="exit">Uygulamadan Çık</string>
