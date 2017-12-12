@@ -2,6 +2,7 @@ package com.hhy.camera.color.teller;
 
 import com.hhy.camera.color.teller.Preview.PreviewListener;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
@@ -9,7 +10,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.GestureDetector;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 // kamera aktivite sınıfı
-public class CameraActivity extends MenuActivity implements PreviewListener {
+public class CameraActivity extends Activity implements PreviewListener {
     // kamera preview classı
     private Preview mPreview;
     // durduruldu mu?
@@ -28,8 +28,6 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     private TextView colorView;
     // flashı açıp kapatmak için buton
     private Button button;
-    // menü için
-    private Menu menu;
     // renklerin alındığı sınıf
     private ColorData cdata;
     // kamera kısmı ve radius tanımlaması
@@ -50,6 +48,9 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // fullscreen yapmak için
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_camera);
 
         // renk sınıfını al
@@ -86,9 +87,11 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
                 }
 
             });
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 gestureDetector.onTouchEvent(event);
+                v.performClick();
                 return true;
             }
         });
@@ -145,7 +148,6 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         }
     }
 
-    @Override
     // flash destekleyen telefonlarda flashı açıp kapama
     protected void flash() {
         // flash destegi var mı?
@@ -155,15 +157,9 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
 
             // flash simgesini ve yazısını değiştir
             if (mPreview.lightOn) {
-                //menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.hhy_flash_off));
-                menu.getItem(0).setIcon(R.mipmap.hhy_flash_off);
-                menu.getItem(0).setTitle(R.string.flash_off);
                 button.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.hhy_flash_off, 0, 0, 0);
                 button.setText(R.string.flash_off);
             } else {
-                //menu.getItem(0).setIcon(getResources().getDrawable(R.mipmap.hhy_flash_on));
-                menu.getItem(0).setIcon(R.mipmap.hhy_flash_on);
-                menu.getItem(0).setTitle(R.string.flash_on);
                 button.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.hhy_flash_on, 0, 0, 0);
                 button.setText(R.string.flash_on);
             }
@@ -194,23 +190,13 @@ public class CameraActivity extends MenuActivity implements PreviewListener {
         super.onDestroy();
     }
 
-    @Override
-    // menü oluşturma sınıfı
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // menu xml ini tanımla
-        getMenuInflater().inflate(R.menu.activity_camera, menu);
-        // menuyu ata
-        this.menu = menu;
-        // flash destegi yoksa flash butonunu kaldır
-        if (!mPreview.supportsFlash()) {
-            menu.removeItem(R.id.menu_flash);
-            button.setVisibility(View.GONE);
-        }
-        return true;
-    }
-
     // rengi değiştir
     private void updateColors() {
+        // flash destegi yoksa flash butonunu kaldır
+        if (!mPreview.supportsFlash()) {
+            button.setVisibility(View.GONE);
+        }
+
         int red = 0;
         int green = 0;
         int blue = 0;

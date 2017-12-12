@@ -11,16 +11,15 @@ public class ColorConverter {
     private static final double XYZ_KAPPA = 903.3;
 
     // convert rgb to lab
-    public static double[] RgbToLab(int r, int g, int b) {
+    static double[] RgbToLab(int r, int g, int b) {
         // First we convert RGB to XYZ
         double[] outXyz = RgbToXyz(r, g, b);
         // outLab now contains XYZ
-        double[] outLab = XyzToLab(outXyz[0], outXyz[1], outXyz[2]);
         // outLab now contains LAB representation
-        return outLab;
+        return XyzToLab(outXyz[0], outXyz[1], outXyz[2]);
     }
     // convert rgb to xyz
-    public static double[] RgbToXyz(int r, int g, int b) {
+    private static double[] RgbToXyz(int r, int g, int b) {
         double[] outXyz = {0, 0, 0};
 
         double sr = r / 255.0;
@@ -37,7 +36,7 @@ public class ColorConverter {
         return outXyz;
     }
     // convert xyz to lab
-    public static double[] XyzToLab(double x, double y, double z) {
+    private static double[] XyzToLab(double x, double y, double z) {
         double[] outLab = {0, 0, 0};
 
         x = pivotXyzComponent(x / XYZ_WHITE_REFERENCE_X);
@@ -60,7 +59,7 @@ public class ColorConverter {
         return XyzToRgb(result[0], result[1], result[2]);
     }
     // convert lab to xyz
-    public static double[] LabToXyz(double l, double a, double b) {
+    private static double[] LabToXyz(double l, double a, double b) {
         double[] outXyz = {0, 0, 0};
 
         final double fy = (l + 16) / 116;
@@ -81,7 +80,7 @@ public class ColorConverter {
         return outXyz;
     }
     // convert xyz to rgb
-    public static int[] XyzToRgb(double x, double y, double z) {
+    private static int[] XyzToRgb(double x, double y, double z) {
         double r = (x * 3.2406 + y * -1.5372 + z * -0.4986) / 100;
         double g = (x * -0.9689 + y * 1.8758 + z * 0.0415) / 100;
         double b = (x * 0.0557 + y * -0.2040 + z * 1.0570) / 100;
@@ -94,9 +93,7 @@ public class ColorConverter {
         int green = constrain((int) Math.round(g * 255), 0, 255);
         int blue = constrain((int) Math.round(b * 255), 0, 255);
 
-        int[] color = {red, green, blue};
-
-        return color;
+        return new int[]{red, green, blue};
     }
     private static int constrain(int amount, int low, int high) {
         return amount < low ? low : (amount > high ? high : amount);

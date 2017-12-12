@@ -1,6 +1,7 @@
 package com.hhy.camera.color.teller;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,16 +13,18 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.Menu;
 import android.view.WindowManager;
 
-public class MainPermissionActivity extends MenuActivity {
+public class MainPermissionActivity extends Activity {
     // android 6 ve sonrasında izin isteme
     private final int PERMISSIONS_REQUEST_CAMERA = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // fullscreen yapmak için
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         // android 6 ve sonrası için izin isteme olayı
@@ -35,11 +38,6 @@ public class MainPermissionActivity extends MenuActivity {
 
         // telefonu uyanık tutmak için = ekran kararmasın diye
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // menu çıkmaması için şart
-        return true;
     }
     @Override
     // uygulama devam ettiğinde

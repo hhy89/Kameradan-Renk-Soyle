@@ -3,8 +3,8 @@ package com.hhy.camera.color.teller;
 import java.util.ArrayList;
 
 // renk listesi sınıfı
-public class ColorList {
-    private final ArrayList<Object> colors = new ArrayList<>();
+class ColorList {
+    private final ArrayList<Color> colors = new ArrayList<>();
 
     // tüm renkleri tanımla
     // Color(String hexcode, int[] rgb, double[] lab, String name)
@@ -408,19 +408,116 @@ public class ColorList {
     }
 
     // renkleri liste halinde döndür
-    public ArrayList<Object> getColors() {
+    ArrayList<Color> getColors() {
         return colors;
     }
 
     // hexcode a göre rengin ismini döndür
-    public Color getNameFromHex(String hexcode) {
-        Color color = null;
-        for (int i = 0; i < colors.size(); i++) {
-            color = (Color) colors.get(i);
-
+    Color getNameFromHex(String hexcode) {
+        for (Color color : colors) {
             if (color.getHexcode().equals(hexcode))
                 return color;
         }
-        return color;
+        return null;
     }
+
+    /*
+    // CIEDE2000 Color-Difference
+    private double hp_f(double x, double y) {
+        if (x == 0 && y == 0)
+            return 0;
+        else {
+            double tmphp = Math.toDegrees(Math.atan2(x,y));
+            if (tmphp >= 0)
+                return tmphp;
+            else
+                return tmphp + 360;
+        }
+    }
+    private double dhp_f(double C1, double C2, double h1p, double h2p) {
+        if (C1 * C2 == 0)
+            return 0;
+        else if (Math.abs(h2p - h1p) <= 180)
+            return h2p - h1p;
+        else if ((h2p - h1p) > 180)
+            return (h2p - h1p) - 360;
+        else if ((h2p - h1p) < -180)
+            return (h2p - h1p) + 360;
+        else
+            throw(new Error());
+    }
+    private double a_hp_f(double C1, double C2, double h1p, double h2p) {
+        if (C1 * C2 == 0)
+            return h1p+h2p;
+        else if (Math.abs(h1p - h2p) <= 180)
+            return (h1p + h2p) / 2.0;
+        else if ((Math.abs(h1p - h2p) > 180) && ((h1p + h2p) < 360))
+            return (h1p + h2p + 360) / 2.0;
+        else if ((Math.abs(h1p - h2p) > 180) && ((h1p + h2p) >= 360))
+            return (h1p + h2p - 360) / 2.0;
+        else
+            throw(new Error());
+    }
+    // 2 renk arasındaki uzaklığı hesapla
+    // 1. formul = Uzaklık = karekök(xd*xd + yd*yd + zd*zd)
+    private double calculateDist(double[] lab1, double[] lab2) {
+        // Get L,a,b values for color 1
+        double L1 = lab1[0];
+        double a1 = lab1[1];
+        double b1 = lab1[2];
+
+        // Get L,a,b values for color 2
+        double L2 = lab2[0];
+        double a2 = lab2[1];
+        double b2 = lab2[2];
+
+        // Weight factors
+        double kL = 1;
+        double kC = 1;
+        double kH = 1;
+
+        // Step 1: Calculate C1p, C2p, h1p, h2p
+        double C1 = Math.sqrt(Math.pow(a1, 2) + Math.pow(b1, 2)); //(2)
+        double C2 = Math.sqrt(Math.pow(a2, 2) + Math.pow(b2, 2)); //(2)
+
+        double a_C1_C2 = (C1+C2 )/ 2.0;             //(3)
+
+        double G = 0.5 * (1 - Math.sqrt(Math.pow(a_C1_C2 , 7.0) /
+                (Math.pow(a_C1_C2, 7.0) + Math.pow(25.0, 7.0)))); //(4)
+
+        double a1p = (1.0 + G) * a1; //(5)
+        double a2p = (1.0 + G) * a2; //(5)
+
+        double C1p = Math.sqrt(Math.pow(a1p, 2) + Math.pow(b1, 2)); //(6)
+        double C2p = Math.sqrt(Math.pow(a2p, 2) + Math.pow(b2, 2)); //(6)
+
+        double h1p = hp_f(b1, a1p); //(7)
+        double h2p = hp_f(b2, a2p); //(7)
+
+        // Step 2: Calculate dLp, dCp, dHp
+        double dLp = L2 - L1; //(8)
+        double dCp = C2p - C1p; //(9)
+
+        double dhp = dhp_f(C1, C2, h1p, h2p); //(10)
+        double dHp = 2 * Math.sqrt(C1p * C2p) * Math.sin(Math.toRadians(dhp / 2.0)); //(11)
+
+        // Step 3: Calculate CIEDE2000 Color-Difference
+        double a_L = (L1 + L2) / 2.0; //(12)
+        double a_Cp = (C1p + C2p) / 2.0; //(13)
+
+        double a_hp = a_hp_f(C1, C2, h1p, h2p); //(14)
+        double T = 1 - 0.17 * Math.cos(Math.toRadians(a_hp - 30)) + 0.24 * Math.cos(Math.toRadians(2 * a_hp)) +
+                0.32 * Math.cos(Math.toRadians(3 * a_hp + 6)) - 0.20 * Math.cos(Math.toRadians(4 * a_hp - 63)); //(15)
+        double d_ro = 30 * Math.exp(-(Math.pow((a_hp - 275) / 25,2))); //(16)
+        double RC = Math.sqrt((Math.pow(a_Cp, 7.0)) / (Math.pow(a_Cp, 7.0) + Math.pow(25.0, 7.0)));//(17)
+        double SL = 1 + ((0.015 * Math.pow(a_L - 50, 2)) /
+                Math.sqrt(20 + Math.pow(a_L - 50, 2.0)));//(18)
+        double SC = 1 + 0.045 * a_Cp;//(19)
+        double SH = 1 + 0.015 * a_Cp * T;//(20)
+        double RT = -2 * RC * Math.sin(Math.toRadians(2 * d_ro));//(21)
+        double dE = Math.sqrt(Math.pow(dLp /(SL * kL), 2) + Math.pow(dCp /(SC * kC), 2) +
+                Math.pow(dHp /(SH * kH), 2) + RT * (dCp /(SC * kC)) * (dHp / (SH * kH))); //(22)
+        return dE;
+    }
+    */
 }

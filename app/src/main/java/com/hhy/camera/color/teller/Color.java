@@ -15,13 +15,13 @@ public class Color {
     }
 
     // getter lar
-    public String getHexcode() {
+    String getHexcode() {
         return hexcode;
     }
-    public int[] getRgb() {
+    int[] getRgb() {
         return rgb;
     }
-    public double[] getLab() {
+    double[] getLab() {
         return lab;
     }
     public String getName() {

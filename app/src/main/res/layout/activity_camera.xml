@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:tag="layout"
-                android:textSize="36sp"
+                android:textSize="45sp"
                 android:textStyle="bold"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -45,6 +45,7 @@
             android:alpha="10"
             android:drawableLeft="@mipmap/hhy_flash_on"
             android:text="@string/flash_on"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             tools:ignore="RtlHardcoded" />
 

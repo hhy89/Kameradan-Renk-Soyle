@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:tag="layout-large"
-                android:textSize="45sp"
+                android:textSize="55sp"
                 android:padding="5dp"
                 android:textStyle="bold"
                 android:paddingTop="3dp"
@@ -44,6 +44,7 @@
             android:alpha="10"
             android:drawableLeft="@mipmap/hhy_flash_on"
             android:text="@string/flash_on"
+            android:textColor="@android:color/white"
             android:textSize="30sp"
             tools:ignore="RtlHardcoded" />
 

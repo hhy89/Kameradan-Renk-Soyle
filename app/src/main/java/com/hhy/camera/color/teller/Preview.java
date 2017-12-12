@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.ImageFormat;
+import android.graphics.*;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PreviewCallback;
@@ -113,12 +113,8 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback, PreviewCall
                 parameters = mCamera.getParameters();
                 if (parameters.getFlashMode() != null) {
                     List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-                    if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-                            supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(
-                                    Camera.Parameters.FLASH_MODE_OFF)) {
-                        return false;
-                    }
-                    return true;
+                    return !(supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+                            supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Parameters.FLASH_MODE_OFF));
                 }
             }
         }
